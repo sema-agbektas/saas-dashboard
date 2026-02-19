@@ -1,9 +1,10 @@
 from fastapi import FastAPI 
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import auth
-
+from app.database import engine, Base
+from app.models.user import User
 app = FastAPI(title="SaaS Dashboard API")
-
+Base.metadata.create_all(bind=engine)
 #cors ayarları
 app.add_middleware(
     CORSMiddleware,

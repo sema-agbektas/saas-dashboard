@@ -9,8 +9,7 @@ from pathlib import Path
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
-DATABASE_URL = 'postgresql://neondb_owner:npg_dyiFWhpA0k6v@ep-billowing-term-ai0t0t24-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
-
+DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise Exception("❌ DATABASE_URL bulunamadı! .env dosyasını kontrol et.")
 
@@ -24,3 +23,5 @@ def get_db():
         yield db
     finally:
         db.close()
+
+print("DATABASE_URL:", DATABASE_URL)
