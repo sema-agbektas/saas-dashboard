@@ -1,3 +1,4 @@
+from app.schemas.user import UserLogin
 from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -81,8 +82,8 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
 
 # Login endpoint'i
 @router.post("/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = authenticate_user(db, form_data.username, form_data.password)
+def login(user_data: UserLogin, db: Session = Depends(get_db)):
+    user = authenticate_user(db, user_data.email, user_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
