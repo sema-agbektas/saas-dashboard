@@ -9,7 +9,7 @@ app.add_middleware(
     allow_origins=[
     "http://localhost:5173",
     "https://saas-dashboard.vercel.app",  # frontend URL (sonra eklenecek)
-    "https://saas-dashboard-api.onrender.com"  # backend URL
+    "https://saas-dashboard-api-tj2g.onrender.com"  # backend URL
     ],
     allow_credentials=True,
     allow_methods=["*"],
