@@ -22,3 +22,7 @@ app.include_router(sales.router)
 @app.get("/")
 def root():
     return {"message": "API çalışıyor"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
