@@ -5,7 +5,7 @@ import SalesChart from "../components/SalesChart";
 import AddSaleForm from "../components/AddSaleForm";
 import FilterButtons from "../components/FilterButtons";
 import SalesList from "../components/SalesList";
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://saas-dashboard-api-tj2g.onrender.com";
 
 export default function Dashboard() {
   const navigate = useNavigate();
