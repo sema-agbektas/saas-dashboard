@@ -19,5 +19,6 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(sales.router)
+@app.get("/")
 def root():
     return {"message": "API çalışıyor"}
