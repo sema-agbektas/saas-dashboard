@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from app.database import get_db
-from app.models.sale import Sale
+from app.models.sales import Sale
 from app.routers.auth import get_current_user
 from app.models.user import User
 from app.schemas.dashboard import DashboardSummary
