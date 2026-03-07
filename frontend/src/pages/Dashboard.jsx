@@ -35,7 +35,7 @@ export default function Dashboard() {
   }
     async function fetchSales() {
       const token = getToken();
-      const url =`${API_BASE}/sales?range_days=${rangeDays}`;
+      const url =`${API_BASE}/sales/filter?days=${rangeDays}`;
       const res = await fetch(url,{
           headers: { Authorization: `Bearer ${token}` },
       });
@@ -118,13 +118,15 @@ export default function Dashboard() {
   });
 
   return (
-    <div style={{ maxWidth: 720, margin: "60px auto", fontFamily: "Arial" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h2>Dashboard</h2>
-        <button onClick={logout}>Logout</button>
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Dashboard</h2>
+        <button onClick={logout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Logout
+        </button>
       </div>
 
-      {error && <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div>}
+      {error && <div className="text-red-500 mb-4">{error}</div>}
 
       <SummaryCards summary={summary} />
       <SalesChart sales={filteredSales} />
