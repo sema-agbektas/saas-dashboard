@@ -1,11 +1,35 @@
-export default function SummaryCards({summary}) {
-    if (!summary) return <div>Loading summary...</div>;
-
+export default function SummaryCards({ summary }) {
+  if (!summary) {
     return (
-        <div style={{padding:16,border:"1px solid #ddd",borderRadius:8,marginBottom:16}}>
-            <h3 style={{marginTop:0}}>Dashboard Summary</h3>
-            <div><b>Total Sales:</b> {summary.total_sales}</div>
-            <div><b>Total Revenue:</b> {Number(summary.total_revenue).toFixed(2)}</div>
-        </div>
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p className="text-sm text-slate-500">Loading summary...</p>
+      </div>
     );
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {/* Total Sales */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p className="text-sm font-medium text-slate-500">Total Sales</p>
+        <p className="mt-2 text-3xl font-bold text-slate-900">
+          {summary.total_sales}
+        </p>
+        <p className="mt-1 text-xs text-slate-400">
+          Number of completed sales
+        </p>
+      </div>
+
+      {/* Total Revenue */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p className="text-sm font-medium text-slate-500">Total Revenue</p>
+        <p className="mt-2 text-3xl font-bold text-emerald-600">
+          ${Number(summary.total_revenue).toFixed(2)}
+        </p>
+        <p className="mt-1 text-xs text-slate-400">
+          Total generated revenue
+        </p>
+      </div>
+    </div>
+  );
 }

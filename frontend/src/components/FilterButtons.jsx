@@ -1,9 +1,28 @@
-export default function FilterButtons({rangeDays, setRangeDays}) {
-    return (
-        <div style={{display:"flex",gap:8,marginBottom:10}}>
-            <button onClick={() => setRangeDays(7)} disabled={rangeDays === 7}>Last 7 Days</button>
-            <button onClick={() => setRangeDays(30)} disabled={rangeDays === 30}>Last 30 Days</button>
-            <button onClick={() => setRangeDays(90)} disabled={rangeDays === 90}>Last 90 Days</button>
-        </div>
-    );
+export default function FilterButtons({ rangeDays, setRangeDays }) {
+  const options = [7, 30, 90];
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((days) => {
+        const active = rangeDays === days;
+
+        return (
+          <button
+            key={days}
+            onClick={() => setRangeDays(days)}
+            disabled={active}
+            className={`rounded-xl px-4 py-2 text-sm font-medium transition
+              ${
+                active
+                  ? "bg-slate-900 text-white shadow"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }
+              disabled:cursor-default`}
+          >
+            Last {days} Days
+          </button>
+        );
+      })}
+    </div>
+  );
 }
