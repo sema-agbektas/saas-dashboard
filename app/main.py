@@ -8,7 +8,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
     "http://localhost:5173",
-     "https://frontend-five-liard-71.vercel.app",  # frontend URL (sonra eklenecek)
+     "https://saas-dashboard-fyg4.vercel.app",  # bunu ekle
     "https://saas-dashboard-api-tj2g.onrender.com"  # backend URL
     ],
     allow_credentials=True,
