@@ -106,10 +106,19 @@ export default function Dashboard() {
     }
   }
 
-  useEffect(() => {
+ useEffect(() => {
+    const token = getToken();
+    if (!token) {
+        navigate("/login");
+        return;
+    }
     init();
-  }, []);
-
+}, [rangeDays]);
+useEffect(() => {
+    if (sales.length === 0) {
+        fetchSales();
+    }
+}, [sales]);
   const filteredSales = sales.filter((s) => {
     if (!s.created_at) return true;
     const t = new Date(s.created_at).getTime();
