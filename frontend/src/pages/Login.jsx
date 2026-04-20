@@ -8,26 +8,29 @@ export default function Login() {
   const [email, setEmail] = useState("test@example.com");
   const [password, setPassword] = useState("123456");
   const [msg, setMsg] = useState("");
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   async function handleSubmit(e) {
     e.preventDefault();
     setMsg("");
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email, 
-          password: password,
-        }),
-      });
+      let res;
+      for (let i = 0; i < 3; i++) {
+        try {
+          res = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          if (res.ok) break;
+        } catch {
+          if (i < 2) await new Promise(r => setTimeout(r, 3000));
+        }
+      }
+      if (!res) throw new Error("Connection failed");
 
       const data = await res.json();
-
       if (!res.ok) {
         setMsg(data.detail || "Login failed");
         return;
@@ -38,9 +41,10 @@ export default function Login() {
       navigate("/dashboard");
     } catch (error) {
       setMsg("Connection error: " + error.message);
+    } finally {
+      setLoading(false);
     }
   }
-
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="grid min-h-screen lg:grid-cols-2">
