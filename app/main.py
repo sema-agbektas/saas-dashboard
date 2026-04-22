@@ -1,15 +1,19 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth,dashboard,sales
+from app.routers import auth, dashboard, sales
+from app.database import Base, engine
+from app.models.user import User
+from app.models.sales import Sale
+
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 
-# TÜM CORS AYARLARINI AÇ
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-     "https://saas-dashboard-fyg4.vercel.app",  # bunu ekle
-    "https://saas-dashboard-api-tj2g.onrender.com"  # backend URL
+        "http://localhost:5173",
+        "https://saas-dashboard-fyg4.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -19,6 +23,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(sales.router)
+
 @app.get("/")
 def root():
     return {"message": "API çalışıyor"}
