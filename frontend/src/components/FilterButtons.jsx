@@ -2,7 +2,7 @@ export default function FilterButtons({ rangeDays, setRangeDays }) {
   const options = [7, 30, 90];
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="inline-flex items-center rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
       {options.map((days) => {
         const active = rangeDays === days;
 
@@ -11,15 +11,15 @@ export default function FilterButtons({ rangeDays, setRangeDays }) {
             key={days}
             onClick={() => setRangeDays(days)}
             disabled={active}
-            className={`rounded-xl px-4 py-2 text-sm font-medium transition
+            className={`relative rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200
               ${
                 active
-                  ? "bg-slate-900 text-white shadow"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
+                  : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
               }
-              disabled:cursor-default`}
+            `}
           >
-            Last {days} Days
+            {days}D
           </button>
         );
       })}

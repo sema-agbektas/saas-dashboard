@@ -1,14 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+import traceback
+import logging
 from app.routers import auth, dashboard, sales
 from app.database import Base, engine
-from app.models.user import User
-from app.models.sales import Sale
 
+# Veritabanı tablolarını oluştur
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+# Logger konfigürasyonu
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
 
+app = FastAPI(title="SaaS Dashboard API")
+
+# CORS Ayarları
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -20,9 +30,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Global Exception Handler
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Global hata yakalandı: {exc}\n{traceback.format_exc()}")
+    return JSONResponse(
+        status_code=500,
+        content={"message": "Sunucuda beklenmeyen bir hata oluştu.", "details": str(exc)},
+    )
+
+# Router'ları ekle
 app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(sales.router)
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Uygulama başlatıldı.")
 
 @app.get("/")
 def root():
