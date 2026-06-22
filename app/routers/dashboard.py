@@ -17,5 +17,5 @@ def summary(db: Session = Depends(get_db), current_user: User = Depends(get_curr
     total_revenue = db.query(func.sum(Sale.amount)).filter(
         Sale.user_id == current_user.id
     ).scalar() or 0
-
-    return DashboardSummary(total_sales=total_sales, total_revenue=float(total_revenue))
+    active_users=db.query(User).filter(User.is_active==True).count()
+    return DashboardSummary(total_sales=total_sales, total_revenue=float(total_revenue),active_users=active_users)
