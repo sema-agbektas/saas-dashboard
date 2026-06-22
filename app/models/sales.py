@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey,String
 from sqlalchemy.sql import func
 from app.database import Base
 
@@ -9,4 +9,4 @@ class Sale(Base):
     amount = Column(Float, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     user_id= Column(Integer, ForeignKey("users.id"), nullable=False)
-    
+    category=Column(String,nullable=True)

@@ -4,10 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import traceback
 import logging
 from app.routers import auth, dashboard, sales
-from app.database import Base, engine
-
-# Veritabanı tablolarını oluştur
-Base.metadata.create_all(bind=engine)
+from app.database import Base
 
 # Logger konfigürasyonu
 logging.basicConfig(
