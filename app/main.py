@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import traceback
 import logging
-from app.routers import auth, dashboard, sales
+from app.routers import auth, dashboard, sales, payments
 from app.database import Base
 
 # Logger konfigürasyonu
@@ -40,6 +40,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(sales.router)
+app.include_router(payments.router)
 
 @app.on_event("startup")
 async def startup_event():
