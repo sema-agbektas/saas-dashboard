@@ -5,6 +5,8 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./context/ThemeContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 
 // React Query Client yapılandırması
 const queryClient = new QueryClient({
@@ -39,6 +41,8 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/success" element={<PaymentSuccess />} />
+          <Route path="/cancel" element={<PaymentCancel />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes> 
       </QueryClientProvider>

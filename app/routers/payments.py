@@ -23,8 +23,8 @@ def create_checkout_session(current_user: User = Depends(get_current_user)):
                 "quantity": 1,
             }],
             mode="payment",
-            success_url="http://localhost:5173/success",
-            cancel_url="http://localhost:5173/cancel",
+            success_url=f"{settings.FRONTEND_URL}/success",
+            cancel_url=f"{settings.FRONTEND_URL}/cancel",
         )
         return {"checkout_url": session.url}
     except Exception as e:

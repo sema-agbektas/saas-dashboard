@@ -58,3 +58,8 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
         data={"sub": user.email}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/me")
+def get_me(current_user: User = Depends(get_current_user)):
+    return {"email": current_user.email, "full_name": current_user.full_name}
