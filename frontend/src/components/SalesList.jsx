@@ -25,9 +25,16 @@ export default function SalesList({ sales }) {
               <ArrowUpRight size={20} />
             </div>
             <div>
-              <p className="font-semibold text-slate-900 dark:text-white">
-                Transaction #{s.id.toString().slice(0, 8)}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-slate-900 dark:text-white">
+                  Transaction #{s.id.toString().slice(0, 8)}
+                </p>
+                {s.category && (
+                  <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
+                    {s.category}
+                  </span>
+                )}
+              </div>
               <div className="mt-1 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                 <Calendar size={12} />
                 <span>
