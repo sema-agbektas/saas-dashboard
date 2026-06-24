@@ -21,5 +21,5 @@ def test_login_wrong_email():
     assert response.status_code == 401
 
 def test_register_success():
-    response = client.post("/auth/register",json={"email":"semanur@example.com","password":"1234","full_name":"sema"})
+    response = client.post("/auth/register",json={"email":"ahmet@example.com","password":"1234","full_name":"sema"})
     assert response.status_code == 201
