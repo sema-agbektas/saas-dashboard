@@ -23,6 +23,14 @@ export default function Dashboard() {
   const [rangeDays, setRangeDays] = useState(7);
 
   // Veri Çekme (Queries)
+  const { data: me } = useQuery({
+    queryKey: ["me"],
+    queryFn: async () => {
+      const { data } = await api.get("/auth/me");
+      return data;
+    },
+  });
+
   const { data: summary, isLoading: isSummaryLoading, isError: isSummaryError } = useQuery({
     queryKey: ["summary"],
     queryFn: async () => {
@@ -134,7 +142,7 @@ export default function Dashboard() {
                 Live Overview
               </div>
               <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-                Welcome back, User
+                Welcome back, {me?.full_name || me?.email || "User"}
               </h1>
               <p className="mt-4 max-w-2xl text-lg text-slate-300">
                 Here's what's happening with your projects today. Monitor sales, track revenue, and analyze growth.

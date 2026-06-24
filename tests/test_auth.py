@@ -1,4 +1,4 @@
-import pytest
+import uuid
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -21,5 +21,6 @@ def test_login_wrong_email():
     assert response.status_code == 401
 
 def test_register_success():
-    response = client.post("/auth/register",json={"email":"ahmet@example.com","password":"1234","full_name":"sema"})
+    unique_email = f"test_{uuid.uuid4().hex[:8]}@example.com"
+    response = client.post("/auth/register", json={"email": unique_email, "password": "1234", "full_name": "Test User"})
     assert response.status_code == 201
