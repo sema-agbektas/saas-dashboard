@@ -1,4 +1,4 @@
-import { Wallet, DollarSign, TrendingUp } from "lucide-react";
+import { Wallet, DollarSign, TrendingUp, Users, UserCheck } from "lucide-react";
 
 export default function SummaryCards({ summary }) {
   if (!summary) {
@@ -10,7 +10,7 @@ export default function SummaryCards({ summary }) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {/* Total Sales */}
       <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
         <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/5 dark:bg-blue-500/10"></div>
@@ -47,6 +47,37 @@ export default function SummaryCards({ summary }) {
           </div>
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
             <DollarSign size={28} />
+          </div>
+        </div>
+      </div>
+      {/* Active Users */}
+      <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-violet-500/5 dark:bg-violet-500/10"></div>
+        <div className="relative z-10 flex items-start justify-between">
+          <div>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Active Users</p>
+            <p className="mt-2 text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {summary.active_users}
+            </p>
+          </div>
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400">
+            <UserCheck size={28} />
+          </div>
+        </div>
+      </div>
+
+      {/* Total Users */}
+      <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-orange-500/5 dark:bg-orange-500/10"></div>
+        <div className="relative z-10 flex items-start justify-between">
+          <div>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Users</p>
+            <p className="mt-2 text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {summary.total_users}
+            </p>
+          </div>
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400">
+            <Users size={28} />
           </div>
         </div>
       </div>
