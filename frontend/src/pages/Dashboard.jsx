@@ -63,6 +63,15 @@ export default function Dashboard() {
     createSaleMutation.mutate(value);
   }
 
+  async function handleUpgrade() {
+    try {
+      const { data } = await api.post("/payments/create-checkout-session");
+      window.location.href = data.checkout_url;
+    } catch {
+      toast.error("Failed to start checkout. Please try again.");
+    }
+  }
+
   function logout() {
     localStorage.removeItem("token");
     queryClient.clear();
@@ -208,7 +217,7 @@ export default function Dashboard() {
               <p className="mb-6 text-sm text-blue-100">
                 Unlock advanced analytics, multiple team members, and custom reports.
               </p>
-              <button className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-blue-600 transition hover:bg-slate-50">
+              <button onClick={handleUpgrade} className="w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-blue-600 transition hover:bg-slate-50">
                 Upgrade Plan
               </button>
             </div>
