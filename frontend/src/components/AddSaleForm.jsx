@@ -1,6 +1,8 @@
-import { Plus, DollarSign } from "lucide-react";
+import { Plus, DollarSign, Tag } from "lucide-react";
 
-export default function AddSaleForm({ amount, setAmount, createSale, loading }) {
+const CATEGORIES = ["Software", "Consulting", "Design", "Marketing", "Other"];
+
+export default function AddSaleForm({ amount, setAmount, category, setCategory, createSale, loading }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="relative">
@@ -15,6 +17,22 @@ export default function AddSaleForm({ amount, setAmount, createSale, loading }) 
           onChange={(e) => setAmount(e.target.value)}
           className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-slate-800 dark:text-white dark:focus:border-blue-500 dark:focus:bg-slate-900 dark:focus:ring-blue-500/20"
         />
+      </div>
+
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 dark:text-slate-500">
+          <Tag size={18} />
+        </div>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-slate-800 dark:text-white dark:focus:border-blue-500 dark:focus:bg-slate-900 dark:focus:ring-blue-500/20"
+        >
+          <option value="">No category</option>
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
       </div>
 
       <button

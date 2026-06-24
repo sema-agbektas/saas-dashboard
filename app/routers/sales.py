@@ -15,7 +15,7 @@ def create_sale(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    new_sale = Sale(amount=sale_data.amount, user_id=current_user.id)
+    new_sale = Sale(amount=sale_data.amount, user_id=current_user.id, category=sale_data.category)
     db.add(new_sale)
     db.commit()
     db.refresh(new_sale)
@@ -29,15 +29,18 @@ def list_sales(
     sales = db.query(Sale).filter(Sale.user_id == current_user.id).all()
     return sales  # Direkt SQLAlchemy modellerini döndür
 
-@router.get ("/filter")
+@router.get("/filter")
 def get_sales_filtered(
-    days: int = Query(7, description="Number of days to filter sales"),
+    days: int = Query(7),
+    category: str = Query(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     cutoff_date = datetime.utcnow() - timedelta(days=days)
-    sales = db.query(Sale).filter(
+    q = db.query(Sale).filter(
         Sale.user_id == current_user.id,
-        Sale.created_at >= cutoff_date
-    ).all()
-    return sales  # Direkt SQLAlchemy modellerini döndür
+        Sale.created_at >= cutoff_date,
+    )
+    if category:
+        q = q.filter(Sale.category == category)
+    return q.all()  # Direkt SQLAlchemy modellerini döndür

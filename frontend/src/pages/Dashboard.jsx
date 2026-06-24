@@ -18,6 +18,8 @@ export default function Dashboard() {
   const { isDarkMode, toggleTheme } = useTheme();
   
   const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
   const [rangeDays, setRangeDays] = useState(7);
 
   // Veri Çekme (Queries)
@@ -30,9 +32,11 @@ export default function Dashboard() {
   });
 
   const { data: sales = [], isLoading: isSalesLoading, isError: isSalesError } = useQuery({
-    queryKey: ["sales", rangeDays],
+    queryKey: ["sales", rangeDays, filterCategory],
     queryFn: async () => {
-      const { data } = await api.get(`/sales/filter?days=${rangeDays}`);
+      const params = new URLSearchParams({ days: rangeDays });
+      if (filterCategory) params.set("category", filterCategory);
+      const { data } = await api.get(`/sales/filter?${params}`);
       return data;
     },
   });
@@ -40,12 +44,13 @@ export default function Dashboard() {
   // Yeni Satış Ekleme (Mutation)
   const createSaleMutation = useMutation({
     mutationFn: async (value) => {
-      const { data } = await api.post("/sales", { amount: value });
+      const { data } = await api.post("/sales", { amount: value, category: category || null });
       return data;
     },
     onSuccess: () => {
       toast.success("Sale added successfully!");
       setAmount("");
+      setCategory("");
       queryClient.invalidateQueries({ queryKey: ["sales"] });
       queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
@@ -178,13 +183,25 @@ export default function Dashboard() {
             </div>
 
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                  Recent Transactions
-                </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Detailed list of your latest sales records.
-                </p>
+              <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                    Recent Transactions
+                  </h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Detailed list of your latest sales records.
+                  </p>
+                </div>
+                <select
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 dark:border-white/10 dark:bg-slate-800 dark:text-slate-300"
+                >
+                  <option value="">All categories</option>
+                  {["Software", "Consulting", "Design", "Marketing", "Other"].map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
               </div>
               {isLoading ? (
                  <div className="space-y-4">
@@ -203,6 +220,8 @@ export default function Dashboard() {
               <AddSaleForm
                 amount={amount}
                 setAmount={setAmount}
+                category={category}
+                setCategory={setCategory}
                 createSale={createSale}
                 loading={createSaleMutation.isPending}
               />
