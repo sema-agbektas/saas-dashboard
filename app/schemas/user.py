@@ -20,3 +20,7 @@ class UserResponse(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
